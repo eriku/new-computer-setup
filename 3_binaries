@@ -6,6 +6,7 @@
 
 binaries=(
   git
+  node
 )
 
 echo "Installing binaries..."

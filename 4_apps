@@ -25,6 +25,7 @@ apps=(
   jumpcut
   the-unarchiver
   mackup
+  macdown
 )
 
 echo "installing apps..."
