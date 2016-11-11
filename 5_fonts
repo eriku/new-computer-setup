@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# Written by: Erik Uunila [https://github.com/eriku]
+# Completely free to use but feel free to send me a couple of bucks
+# https://cash.me/$eriku
+
+echo "tapping fonts..."
+brew tap caskroom/fonts
+
+brew cask install font-source-code-pro

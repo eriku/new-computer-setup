@@ -1,0 +1,88 @@
+#!/usr/bin/env ruby
+
+# Written by: Erik Uunila [https://github.com/eriku]
+# Completely free to use but feel free to send me a couple of bucks
+# https://cash.me/$eriku
+
+# Open GIT Repository, Commit or File in browser
+# SourceTree Custom Action (Mac OS only)
+#
+# Link to this file for any/all of the actions (script to run)
+#
+# ---------------------------
+# Open Repository in Browser
+# Parameters: $REPO
+# ---------------------------
+# Open Commit in Browser
+# Parameters: $SHA
+# ---------------------------
+# Open File in Browser
+# Parameters: $FILE
+# ---------------------------
+
+# Fire error if no parameter set in Custom Actions
+if ARGV.empty?
+  puts "$SHA, $FILE, or $REPO required"
+  exit 1
+end
+
+# Get the first parameter
+parameter1 = ARGV[0]
+
+# Get the git remote URL
+git_remote_url = `git config --get remote.origin.url`.chomp
+
+# Check if 2nd parameter is being used to override branch
+if ARGV[1].nil?
+  # Get the current git branch
+  git_current_branch = `git branch --contains $1`.sub('* ', '').chomp
+else
+  git_current_branch = ARGV[1]
+end
+
+git_latest_commit_hash = `git log -n 1 #{git_current_branch} --pretty=format:"%H"`
+
+# If no git remote URL then fire error
+if git_remote_url == ''
+  puts 'Error: The remote url for this repository has not been set'
+  exit 1
+else
+  # Set URL strings for each GIT repository (only GitHub & BitBucket right now)
+  if git_remote_url.include? 'github.com'
+    commit_str = 'commit'
+    file_str = 'blob'
+    git_latest_commit_argument = ''
+  # Assume bitbucket
+  else
+    commit_str = 'commits'
+    file_str = 'src'
+    git_latest_commit_argument = "?at=#{git_current_branch}"
+  end
+
+  # Remove ssh:// or https:// (everything before and including "//")
+  git_remote_url = git_remote_url.sub(/.*?\/\//, "")
+  # Remove everything before and including the @ symbol
+  git_remote_url = git_remote_url.sub(/.*?\@/, "")
+  # Remove trailing .git
+  git_remote_url = git_remote_url.sub(/\.git/, '')
+  # Remove : from url and replace with /
+  git_remote_url = git_remote_url.sub(":","/")
+  # Convert git@REPO_URL: -> https://REPO_URL/
+  git_repo_url = "https://#{git_remote_url}"
+
+  # Check which parameter was used and run the correct command
+  if parameter1.start_with? '/Users/'
+    # Open Repository ($REPO)
+    system("open #{git_repo_url}")
+  # Check if parameter is alphanumeric between 5 & 40 characters
+  elsif parameter1 =~ /\b[0-9a-f]{5,40}\b/
+    # Open Commit ($SHA)
+    github_commit_url = "#{git_repo_url}/#{commit_str}/#{parameter1}"
+    system("open #{github_commit_url}")
+  # Otherwise assume that we're trying to open a file
+  else
+    # Open File ($FILE)
+    github_file_url = "#{git_repo_url}/#{file_str}/#{git_latest_commit_hash}/#{parameter1}#{git_latest_commit_argument}"
+    system("open #{github_file_url}")
+  end
+end

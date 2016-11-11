@@ -1,0 +1,26 @@
+#!/bin/bash
+
+# Written by: Erik Uunila [https://github.com/eriku]
+# Completely free to use but feel free to send me a couple of bucks
+# https://cash.me/$eriku
+
+# Check for RVM. If not then install it.
+if test ! $(which rvm); then
+  echo "Installing Ruby Version Manager..."
+  curl -L https://get.rvm.io | bash -s stable --ruby
+  source ~/.rvm/scripts/rvm
+  echo 'setting rvm default to new ruby version'
+  rvm default
+  source ~/.bash_profile
+else
+  echo 'Updating Ruby...'
+  gem update --system
+  echo 'setting rvm default to new ruby version'
+  rvm default
+fi
+
+# Install Compass
+if test ! $(which compass); then
+  echo 'Installing Compass...'
+  gem install compass
+fi

@@ -1,0 +1,34 @@
+#!/bin/bash
+
+# Written by: Erik Uunila [https://github.com/eriku]
+# Completely free to use but feel free to send me a couple of bucks
+# https://cash.me/$eriku
+
+# Tap cask first
+brew tap caskroom/cask
+
+# Apps
+apps=(
+  google-chrome
+  firefox
+  dropbox
+  sublime-text
+  hipchat
+  transmit
+  sourcetree
+  imageoptim
+  imagealpha
+  1password
+  adobe-creative-cloud
+  appcleaner
+  textexpander
+  jumpcut
+  the-unarchiver
+  mackup
+)
+
+echo "installing apps..."
+# Install apps to /Applications
+# brew cask install --appdir="/Applications" ${apps[@]}
+# Default is: /Users/$user/Applications
+brew cask install ${apps[@]}

@@ -1,0 +1,21 @@
+#!/bin/bash
+
+# Written by: Erik Uunila [https://github.com/eriku]
+# Completely free to use but feel free to send me a couple of bucks
+# https://cash.me/$eriku
+
+# Add Bash Aliases
+cp dot_files/.bash_aliases ~/.bash_aliases
+echo 'source ~/.bash_aliases' >>~/.bash_profile
+
+# Add bash colors
+cp dot_files/.bash_colors ~/.bash_colors
+echo 'source ~/.bash_colors' >>~/.bash_profile
+
+cp dot_files/.bash_functions ~/.bash_functions
+echo 'source ~/.bash_functions' >>~/.bash_profile
+
+cp dot_files/.git-prompt.sh ~/.git-prompt.sh
+echo 'source ~/.git-prompt.sh' >>~/.bash_profile
+
+source ~/.git_profile

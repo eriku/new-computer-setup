@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# Written by: Erik Uunila [https://github.com/eriku]
+# Completely free to use but feel free to send me a couple of bucks
+# https://cash.me/$eriku
+
+./1_homebrew
+./2_coreutils
+./3_binaries
+./4_apps
+./5_fonts
+./6_compass
+./7_extras

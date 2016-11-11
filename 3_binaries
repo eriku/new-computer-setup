@@ -1,0 +1,36 @@
+#!/bin/bash
+
+# Written by: Erik Uunila [https://github.com/eriku]
+# Completely free to use but feel free to send me a couple of bucks
+# https://cash.me/$eriku
+
+binaries=(
+  git
+)
+
+echo "Installing binaries..."
+brew install ${binaries[@]}
+
+echo "Setting up git config for "$USER"."
+
+echo -n "Enter your name and press [ENTER]: "
+read name
+git config --global user.name "$name"
+
+echo -n "Enter your email and press [ENTER]: "
+read email
+git config --global user.email $email
+
+# Setup GIT tab completion
+ln -s /usr/local/etc/bash_completion.d/git-completion.bash ~/.git-completion.bash
+
+# Add the git-completion file to bash_profile
+echo 'source ~/.git-completion.bash' >>~/.bash_profile
+
+# Reload bash_profile so the changes can be used right away
+source ~/.bash_profile
+
+echo "Done setting up git. If you haven't already, set up an account at https://bitbucket.org/account/signup/"
+
+# Lets cleanup the install files
+brew cleanup

@@ -1,0 +1,85 @@
+#!/bin/sh
+
+# Written by: Erik Uunila [https://github.com/eriku]
+# Completely free to use but feel free to send me a couple of bucks
+# https://cash.me/$eriku
+
+cd $1
+# Open site & site/css folders in Sublime Text 3
+/Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl path/to/folder
+/Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl path/to/folder/css
+
+# Check if project is using gulp
+if [[ -e $1'/gulpfile.js' ]] ; then
+  if [[ -d $1'/node_modules' ]] ; then
+osascript <<END
+  tell application "Terminal"
+    if not (exists window 1) then reopen
+    activate
+    delay 1
+    if (the (count of the window) = 0) or (the busy of window 1  = true) then
+      do script "cd $1; gulp watch;"
+    else
+      do script "cd $1; gulp watch;" in window 1
+    end if
+  end tell
+END
+  else
+osascript <<END
+  tell application "Terminal"
+    if not (exists window 1) then reopen
+    activate
+    delay 1
+    if (the (count of the window) = 0) or (the busy of window 1  = true) then
+      do script "cd $1; npm install; gulp watch;"
+    else
+      do script "cd $1; npm install; gulp watch;" in window 1
+    end if
+  end tell
+END
+  fi
+# Check if project is using grunt
+elif [[ -e $1'/Gruntfile' ]] ; then
+  if [[ -d $1'/node_modules' ]] ; then
+osascript <<END
+  tell application "Terminal"
+    if not (exists window 1) then reopen
+    activate
+    delay 1
+    if (the (count of the window) = 0) or (the busy of window 1  = true) then
+      do script "cd $1; grunt watch;"
+    else
+      do script "cd $1; grunt watch;" in window 1
+    end if
+  end tell
+END
+  else
+osascript <<END
+  tell application "Terminal"
+    if not (exists window 1) then reopen
+    activate
+    delay 1
+    if (the (count of the window) = 0) or (the busy of window 1  = true) then
+      do script "cd $1; npm install; grunt watch;"
+    else
+      do script "cd $1; npm install; grunt watch;" in window 1
+    end if
+  end tell
+END
+  fi
+# Check if project is using compass
+elif [[ -e $1'/config.rb' ]] ; then
+osascript <<END
+  tell application "Terminal"
+    if not (exists window 1) then reopen
+    activate
+    delay 1
+    if (the (count of the window) = 0) or (the busy of window 1  = true) then
+      do script "cd $1; compass watch;"
+    else
+      do script "cd $1; compass watch;" in window 1
+    end if
+  end tell
+END
+fi
+exit
